@@ -12,8 +12,6 @@ export default function Home() {
     title: "",
     difficulty: "",
     category: "",
-    videoId: "",
-    link: "",
     order: 0,
     likes: 0,
     dislikes: 0,
@@ -70,9 +68,6 @@ export default function Home() {
                   <th scope="col" className="px-6 py-3 w-0 font-medium">
                     Category
                   </th>
-                  <th scope="col" className="px-6 py-3 w-0 font-medium">
-                    Solution
-                  </th>
                 </tr>
               </thead>
             )}
@@ -113,18 +108,7 @@ export default function Home() {
             placeholder="order"
             name="order"
           />
-          <input
-            onChange={handleInputChange}
-            type="text"
-            placeholder="videoId?"
-            name="videoId"
-          />
-          <input
-            onChange={handleInputChange}
-            type="text"
-            placeholder="link?"
-            name="link"
-          />
+
           <button className="bg-white">save to db</button>
         </form>
       </main>

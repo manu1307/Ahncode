@@ -64,43 +64,17 @@ const ProblemsTable: React.FC<ProblemsTableProps> = ({
                 )}
               </th>
               <td className="px-6 py-4">
-                {problem.link ? (
-                  <Link
-                    href={problem.link}
-                    className="hover:text-blue-600 cursor-pointer"
-                    target="_blank"
-                  >
-                    {problem.title}
-                  </Link>
-                ) : (
-                  <Link
-                    className="hover:text-blue-600 cursor-pointer"
-                    href={`/problems/${problem.id}`}
-                  >
-                    {problem.title}
-                  </Link>
-                )}
+                <Link
+                  className="hover:text-blue-600 cursor-pointer"
+                  href={`/problems/${problem.id}`}
+                >
+                  {problem.title}
+                </Link>
               </td>
               <td className={`px-6 py-4 ${difficulyColor}`}>
                 {problem.difficulty}
               </td>
               <td className={"px-6 py-4"}>{problem.category}</td>
-              <td className={"px-6 py-4"}>
-                {problem.videoId ? (
-                  <AiFillYoutube
-                    fontSize={"28"}
-                    className="cursor-pointer hover:text-red-600"
-                    onClick={() =>
-                      setYoutubePlayer({
-                        isOpen: true,
-                        videoId: problem.videoId as string,
-                      })
-                    }
-                  />
-                ) : (
-                  <p className="text-gray-400">Coming soon</p>
-                )}
-              </td>
             </tr>
           );
         })}
