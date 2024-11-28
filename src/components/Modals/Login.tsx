@@ -30,6 +30,10 @@ const Login: React.FC<LoginProps> = () => {
         inputs.password
       );
       if (!newUser) return;
+      localStorage.setItem(
+        "LOGIN_INFO",
+        JSON.stringify(inputs.email.split("@")[0])
+      );
       router.push("/");
     } catch (error: any) {
       toast.error(error.message, {
