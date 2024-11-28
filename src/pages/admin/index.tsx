@@ -4,6 +4,8 @@ import { firestore } from "@/firebase/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import Topbar from "@/components/Topbar/Topbar";
 import Input from "@/components/Inputs/Input";
+import MarkdownEditor from "@uiw/react-markdown-editor";
+import TextInput from "@/components/Inputs/TextInput";
 
 interface Example {
   id: number;
@@ -92,7 +94,8 @@ const AdminPage: React.FC = () => {
   }
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    name?: string
   ) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -160,6 +163,7 @@ const AdminPage: React.FC = () => {
               name="id"
               value={inputs.id}
               onChange={handleInputChange}
+              // onChange={(e) => handleInputChange(e, "id")}
               required
             />
           </div>
@@ -170,12 +174,13 @@ const AdminPage: React.FC = () => {
               name="title"
               value={inputs.title}
               onChange={handleInputChange}
+              // onChange={(e) => handleInputChange(e, "text")}
               required
             />
           </div>
           <div>
-            <label>Problem Statement:</label>
-            <textarea
+            <TextInput
+              label="Problem Statement:"
               name="problemStatement"
               value={inputs.problemStatement}
               onChange={handleInputChange}
@@ -183,24 +188,27 @@ const AdminPage: React.FC = () => {
             />
           </div>
           <div>
-            <label>Constraints:</label>
-            <textarea
+            {/* <label>Constraints:</label> */}
+            {/* <MarkdownEditor onChange={(value) => handleInputChange(value, "id")} /> */}
+            <TextInput
+              label="Constraints:"
               name="constraints"
               value={inputs.constraints}
               onChange={handleInputChange}
             />
           </div>
           <div>
-            <label>Starter Code:</label>
-            <textarea
+            <TextInput
+              label="Starter Code:"
               name="starterCode"
               value={inputs.starterCode}
               onChange={handleInputChange}
             />
           </div>
           <div>
-            <label>Handler Function:</label>
-            <textarea
+            {/* <label>Handler Function:</label> */}
+            <TextInput
+              label="Handler Function:"
               name="handlerFunction"
               value={inputs.handlerFunction}
               onChange={handleInputChange}
@@ -225,10 +233,12 @@ const AdminPage: React.FC = () => {
             />
           </div>
           <div>
-            <h3>Examples:</h3>
+            <h3 className="text-white font-lg font-semibold">Examples:</h3>
             {inputs.examples.map((example, index) => (
               <div key={index} style={{ marginBottom: "1rem" }}>
-                <label>Example {index + 1}:</label>
+                <label className="text-white font-lg font-semibold">
+                  Example {index + 1}:
+                </label>
                 <Input
                   type="text"
                   placeholder="Input Text"
@@ -247,27 +257,36 @@ const AdminPage: React.FC = () => {
                   }
                   required
                 />
-                <textarea
+                <TextInput
                   placeholder="Explanation"
                   value={example.explanation}
                   onChange={(e) =>
                     handleExampleChange(index, "explanation", e.target.value)
                   }
                 />
-                <button
-                  type="button"
-                  onClick={() => handleRemoveExample(index)}
-                >
-                  Remove Example
-                </button>
+                <div className="flex gap-4">
+                  <button
+                    className="bg-red-100 w-full rounded-lg p-2 mt-3 hover:bg-red-200"
+                    type="button"
+                    onClick={() => handleRemoveExample(index)}
+                  >
+                    Remove Example
+                  </button>
+                  <button
+                    className="bg-blue-100 w-full rounded-lg p-2 mt-3 hover:bg-blue-200"
+                    type="button"
+                    onClick={handleAddExample}
+                  >
+                    Add Example
+                  </button>
+                </div>
               </div>
             ))}
-            <button type="button" onClick={handleAddExample}>
-              Add Example
-            </button>
           </div>
 
-          <button className="bg-white">save to db</button>
+          <button className="px-2 py-4 rounded-lg text-xl font-semibold bg-brand-orange">
+            save to db
+          </button>
         </form>
       </div>
     </div>
