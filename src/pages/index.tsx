@@ -26,7 +26,6 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // convert inputs.order to integer
     const newProblem = { ...inputs, order: Number(inputs.order) };
     await setDoc(doc(firestore, "problems", inputs.id), newProblem);
     alert("saved to db");
@@ -74,43 +73,7 @@ export default function Home() {
             <ProblemsTable setLoadingProblems={setLoadingProblems} />
           </table>
         </div>
-        <form
-          className="p-6 flex flex-col max-w-sm gap-3"
-          onSubmit={handleSubmit}
-        >
-          <input
-            onChange={handleInputChange}
-            type="text"
-            placeholder="problem id"
-            name="id"
-          />
-          <input
-            onChange={handleInputChange}
-            type="text"
-            placeholder="title"
-            name="title"
-          />
-          <input
-            onChange={handleInputChange}
-            type="text"
-            placeholder="difficulty"
-            name="difficulty"
-          />
-          <input
-            onChange={handleInputChange}
-            type="text"
-            placeholder="category"
-            name="category"
-          />
-          <input
-            onChange={handleInputChange}
-            type="text"
-            placeholder="order"
-            name="order"
-          />
-
-          <button className="bg-white">save to db</button>
-        </form>
+        
       </main>
     </>
   );
