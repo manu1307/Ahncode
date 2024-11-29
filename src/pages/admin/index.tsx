@@ -52,47 +52,6 @@ const AdminPage: React.FC = () => {
     starterFunctionName: "",
   });
 
-  // const [inputs, setInputs] = useState({
-  //   id: "",
-  //   title: "",
-  //   difficulty: "",
-  //   category: "",
-  //   order: 0,
-  //   likes: 0,
-  //   dislikes: 0,
-  // });
-  async function addProblem() {
-    const problem = {
-      id: ``,
-      title: ``,
-      problemStatement: ``,
-      examples: [
-        {
-          id: 1,
-          inputText: "nums = [2,7,11,15], target = 9",
-          outputText: "[0,1]",
-          explanation: "Because nums[0] + nums[1] == 9, we return [0, 1].",
-        },
-        {
-          id: 2,
-          inputText: "nums = [3,2,4], target = 6",
-          outputText: "[1,2]",
-          explanation: "Because nums[1] + nums[2] == 6, we return [1, 2].",
-        },
-      ],
-      constraints: ``,
-      starterCode: ``,
-      handlerFunction: ``,
-      order: 1,
-      starterFunctionName: "function twoSum(",
-    };
-
-    // Firestore에 데이터 추가
-    await setDoc(doc(firestore, "problems_set", problem.id), problem);
-
-    alert("Problem added successfully!");
-  }
-
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     name?: string
@@ -132,8 +91,30 @@ const AdminPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newProblem = { ...inputs, order: Number(inputs.order) };
-    await setDoc(doc(firestore, "problems", inputs.id), newProblem);
+    const problemsData = {
+      category: inputs.category,
+      difficulty: inputs.difficulty,
+      dislikes: 0,
+      id: inputs.id,
+      likes: 0,
+      order: Number(inputs.order),
+      title: inputs.title,
+    };
+    const problems_set_Data = {
+      id: inputs.id,
+      title: inputs.title,
+      problemStatement: inputs.problemStatement,
+      examples: inputs.examples,
+      constraints: inputs.constraints,
+      starterCode: inputs.starterCode,
+      handlerFunction: inputs.handlerFunction,
+      order: Number(inputs.order),
+      starterFunctionName: inputs.starterFunctionName,
+    };
+    await setDoc(doc(firestore, "problems", inputs.id), problemsData);
+    await setDoc(doc(firestore, "problems_set", inputs.id), problems_set_Data);
     alert("saved to db");
+    router.push("/");
   };
 
   useEffect(() => {
@@ -154,7 +135,7 @@ const AdminPage: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <form
           className="p-6 flex flex-col max-w-lg gap-3 mx-auto"
-          onSubmit={addProblem}
+          onSubmit={handleSubmit}
         >
           <div>
             <Input
@@ -173,6 +154,28 @@ const AdminPage: React.FC = () => {
               type="text"
               name="title"
               value={inputs.title}
+              onChange={handleInputChange}
+              // onChange={(e) => handleInputChange(e, "text")}
+              required
+            />
+          </div>
+          <div>
+            <Input
+              label="Category:"
+              type="text"
+              name="category"
+              value={inputs.category}
+              onChange={handleInputChange}
+              // onChange={(e) => handleInputChange(e, "text")}
+              required
+            />
+          </div>
+          <div>
+            <Input
+              label="Difficulty:"
+              type="text"
+              name="difficulty"
+              value={inputs.difficulty}
               onChange={handleInputChange}
               // onChange={(e) => handleInputChange(e, "text")}
               required
