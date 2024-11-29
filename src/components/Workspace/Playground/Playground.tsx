@@ -34,9 +34,12 @@ const Playground: React.FC<PlaygroundProps> = ({
   setSuccess,
   setSolved,
 }) => {
-  //   console.log(problem);
+  const formattedString = problem.starterCode.replace(
+    "// Write your code here",
+    "\n  // Write your code here\n"
+  );
   const [activeTestCaseId, setActiveTestCaseId] = useState<number>(0);
-  let [userCode, setUserCode] = useState<string>(problem.starterCode);
+  let [userCode, setUserCode] = useState<string>(formattedString);
 
   const [fontSize, setFontSize] = useLocalStorage("lcc-fontSize", "16px");
 
@@ -111,9 +114,21 @@ const Playground: React.FC<PlaygroundProps> = ({
   useEffect(() => {
     const code = localStorage.getItem(`code-${pid}`);
     if (user) {
-      setUserCode(code ? JSON.parse(code) : problem.starterCode);
+      setUserCode(
+        code
+          ? JSON.parse(code)
+          : problem.starterCode.replace(
+              "// Write your code here",
+              "\n  // Write your code here\n"
+            )
+      );
     } else {
-      setUserCode(problem.starterCode);
+      setUserCode(
+        problem.starterCode.replace(
+          "// Write your code here",
+          "\n  // Write your code here\n"
+        )
+      );
     }
   }, [pid, user, problem.starterCode]);
 
