@@ -149,7 +149,7 @@ const AdminPage: React.FC = () => {
   if (pageLoading) return null;
 
   return (
-    <div className="bg-gradient-to-b from-gray-600 to-black h-screen relative">
+    <div className="bg-gradient-to-b from-gray-600 to-black h-screen relative overflow-scroll">
       <Topbar />
       <div className="max-w-7xl mx-auto">
         <form
